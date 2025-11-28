@@ -33,6 +33,7 @@ const syncUser = inngest.createFunction(
         name:newUser.name,
         image:newUser.profileImage
       });
+      
     } catch (error) {
       console.log("inngest create user error ", error);
     }
