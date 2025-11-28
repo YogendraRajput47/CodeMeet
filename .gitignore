@@ -1,0 +1,53 @@
+# ============================
+#   MERN STACK GITIGNORE
+# ============================
+
+# ---- Node ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Environment Files ----
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+backend/.env
+frontend/.env
+
+# ---- Logs ----
+logs/
+*.log
+log.txt
+
+# ---- Build Outputs ----
+dist/
+build/
+backend/build/
+frontend/build/
+
+# ---- Temporary Files ----
+.tmp/
+temp/
+*.tmp
+
+# ---- OS/System Files ----
+.DS_Store
+Thumbs.db
+
+# ---- IDE Files ----
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ---- Cache ----
+.cache/
+frontend/.cache/
+backend/.cache/
