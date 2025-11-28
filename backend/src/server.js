@@ -3,7 +3,7 @@ import { ENV } from "./lib/env.js";
 import path from "path";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
-import {serve} from "inngest";
+import {serve} from "inngest/express"
 import { functions, inngest } from "./lib/inggest.js";
 const app = express();
 
@@ -13,7 +13,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(
   cors({
-    origin: ENV.CLIENT_URL ,
+    origin: ENV.CLIENT_URL || "*" ,
     credentials: true,
   })
 );
