@@ -11,10 +11,11 @@ const syncUser = inngest.createFunction(
   {
     event: "clerk/user.created",
   },
-  async (event) => {
+  async ({event}) => {
     await connectDB();
     const { id, email_addresses, first_name, last_name, image_url } =
-      event.data;
+      event.data;   
+      console.log(id, email_addresses, first_name, last_name, image_url)
 
     const newUser = {
       clerkId: id,
@@ -23,6 +24,7 @@ const syncUser = inngest.createFunction(
       profileImage: image_url,
     };
     await User.create(newUser);
+    console.log("User created");
   }
 );
 
