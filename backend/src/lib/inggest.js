@@ -11,20 +11,24 @@ const syncUser = inngest.createFunction(
   {
     event: "clerk/user.created",
   },
-  async ({event}) => {
+  async ({ event }) => {
     await connectDB();
-    const { id, email_addresses, first_name, last_name, image_url } =
-      event.data;   
-      console.log(id, email_addresses, first_name, last_name, image_url)
+    try {
+      const { id, email_addresses, first_name, last_name, image_url } =
+        event.data;
+      console.log(id, email_addresses, first_name, last_name, image_url);
 
-    const newUser = {
-      clerkId: id,
-      email: email_addresses[0]?.email_address,
-      name: `${first_name || ""} ${last_name || ""}`,
-      profileImage: image_url,
-    };
-    await User.create(newUser);
-    console.log("User created");
+      const newUser = {
+        clerkId: id,
+        email: email_addresses[0]?.email_address,
+        name: `${first_name || ""} ${last_name || ""}`,
+        profileImage: image_url,
+      };
+      await User.create(newUser);
+      console.log("User created");
+    } catch (error) {
+      console.log("inngest create user error ", error);
+    }
   }
 );
 
@@ -35,11 +39,15 @@ const deleteUserFromDB = inngest.createFunction(
   {
     event: "clerk/user.deleted",
   },
-  async (event) => {
-    await connectDB();
-    const { id } = event.data;
-    await User.deleteOne({ clerkId: id });
+  async ({ event }) => {
+    try {
+      await connectDB();
+      const { id } = event.data;
+      await User.deleteOne({ clerkId: id });
+    } catch (error) {
+      console.log("delete user error",error);
+    }
   }
 );
 
-export const functions = [syncUser,deleteUserFromDB];
+export const functions = [syncUser, deleteUserFromDB];
