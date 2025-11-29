@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import HeroSection from "../components/Home/HeroSection";
 import HowItWorksSection from "../components/Home/HowItWorksSection";
 import UseCasesSection from "../components/Home/UseCasesSection";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Home/Navbar";
 
 function HomePage() {
   return (
