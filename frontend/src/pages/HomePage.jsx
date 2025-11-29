@@ -1,30 +1,29 @@
-import React from "react";
-import {
-  SignInButton,
-  SignOutButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
-import toast from "react-hot-toast";
+import FeatureSection from "../components/Home/FeatureSection";
+import Footer from "../components/Footer";
+import HeroSection from "../components/Home/HeroSection";
+import HowItWorksSection from "../components/Home/HowItWorksSection";
+import UseCasesSection from "../components/Home/UseCasesSection";
+import Navbar from "../components/Navbar";
+
 function HomePage() {
   return (
-    <div>
-      <button
-        className="btn btn-secondary"
-        onClick={() => toast.error("success")}
-      >
-        Click me
-      </button>
-      <SignedOut>
-        <SignInButton mode="modal">
-          <button>Login</button>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <SignOutButton />
-      </SignedIn>
-      <UserButton />
+    <div className="bg-gradient-to-br from-base-100 via-base-200 to-base-300">
+      {/* Navbar */}
+      <Navbar />
+
+      {/* HeroSection */}
+      <HeroSection />
+
+      {/*Features Section  */}
+      <FeatureSection/>
+
+      {/* How it works section */}
+      <HowItWorksSection/>
+      {/* Use Cases Section Section */}
+      <UseCasesSection/>
+      {/* Footer */}
+      <Footer/>
+     
     </div>
   );
 }
