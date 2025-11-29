@@ -1,5 +1,7 @@
 import { chatClient } from "../lib/stream.js";
 
+
+//getStreamToken Controller
 export async function getStreamToken(req, res) {
   try {
     //user clerk id for stream not mongodb _id=>it should match the id we have in the stream dashboard
