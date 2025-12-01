@@ -24,6 +24,8 @@ app.use(clerkMiddleware()); //this will add auth field to the request object:req
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
+
+console.log("Forwarding request to /api/sessions");
 app.use("/api/sessions", sessionRoutes);
 
 
