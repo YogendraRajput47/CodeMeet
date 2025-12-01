@@ -84,6 +84,16 @@ export const protectRoute = async (req, res, next) => {
     const clerkId = await req.auth().userId;
     console.log(req.auth());
     const isAuthenticated=req.auth().isAuthenticated
+     if (typeof req.auth !== "function") {
+        console.error("[protectRoute] req.auth is NOT a function - clerkMiddleware missing or failed");
+        console.error("[protectRoute] headers:", {
+          origin: req.get("origin"),
+          cookiePresent: !!req.get("cookie"),
+          authorizationPresent: !!req.get("authorization"),
+        });
+        return res.status(401).json({ message: "Unauthorized - auth middleware missing" });
+      }
+
     // console.log(clerkId);
     if (!isAuthenticated) {
       return res.status(401).json({ message: "Unauthorized - Invalid Type" });
