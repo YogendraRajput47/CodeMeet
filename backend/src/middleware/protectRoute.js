@@ -85,7 +85,7 @@ export const protectRoute = async (req, res, next) => {
     console.log(req.auth());
     const isAuthenticated=req.auth().isAuthenticated;
 
-    if (isAuthenticated) {
+    if (!isAuthenticated) {
       return res.status(401).json({ message: "Unauthorized - Invalid Type" });
     }
     // find the user in db by clerkId
