@@ -21,6 +21,11 @@ app.use(
   })
 );
 app.use(clerkMiddleware()); //this will add auth field to the request object:req.auth()
+app.use((req, res, next) => {
+  console.log(`[REQ] ${new Date().toISOString()} ${req.method} ${req.originalUrl} - Referer:${req.get('referer') || 'none'} - Origin:${req.get('origin') || 'none'} - Cookie:${!!req.get('cookie')} - UA:${req.get('user-agent')?.slice(0,80) || 'none'}`);
+  next();
+});
+
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
