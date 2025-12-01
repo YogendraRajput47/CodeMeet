@@ -11,27 +11,6 @@
 // //   }
 // // };
 
-// // export const pprotectRoute = async (req, res, next) => {
-// //   try {
-// //     const clerkId = await req.auth().userId;
-// //     // console.log(clerkId);
-// //     if (!clerkId)
-// //       return res.status(401).json({ message: "Unauthorized - Invalid Token" });
-// //     // find the user in db by clerkId
-// //     const user = await User.findOne({ clerkId });
-// //     if (!user) {
-// //       return res.status(404).json({ message: "User not found" });
-// //     }
-
-// //     //attach user to req object
-// //     req.user = user;
-// //     next();
-// //   } catch (error) {
-// //     console.error("Error in protectRoute middleware", error);
-// //     return res.status(500).json({ message: "Internal server error" });
-// //   }
-// // };
-
 // export const auth = async (_, res, next) => {
 //   try {
 //     requireAuth();
@@ -90,7 +69,6 @@
 import { requireAuth } from "@clerk/express";
 import User from "../models/User.js";
 
-
 export const auth = async (_, res, next) => {
   try {
     requireAuth();
@@ -103,51 +81,24 @@ export const auth = async (_, res, next) => {
 
 export const protectRoute = async (req, res, next) => {
   try {
-    console.log("[protectRoute] entering for", req.originalUrl);
-
-    if (typeof req.auth !== "function") {
-      console.error(
-        "[protectRoute] req.auth is NOT a function - clerk middleware missing/failed"
-      );
-      console.error("[protectRoute] headers:", {
-        host: req.get("host"),
-        origin: req.get("origin"),
-        cookie: req.get("cookie"),
-        authorization: req.get("authorization"),
-      });
-      return res
-        .status(401)
-        .json({ message: "Unauthorized - auth middleware missing" });
+    const clerkId = await req.auth().userId;
+    console.log(req.auth());
+    const isAuthenticated=req.auth().isAuthenticated
+    // console.log(clerkId);
+    if (!isAuthenticated) {
+      return res.status(401).json({ message: "Unauthorized - Invalid Type" });
     }
-
-    let auth;
-    try {
-      auth = req.auth();
-    } catch (err) {
-      console.error("[protectRoute] req.auth() threw:", err);
-      return res.status(401).json({ message: "Unauthorized - invalid token" });
-    }
-
-    const clerkId = auth?.userId;
-    console.log("[protectRoute] auth result ->", { clerkId });
-
-    if (!clerkId)
-      return res.status(401).json({ message: "Unauthorized - invalid token" });
-
+    // find the user in db by clerkId
     const user = await User.findOne({ clerkId });
     if (!user) {
-      console.warn(`[protectRoute] user not found for clerkId=${clerkId}`);
       return res.status(404).json({ message: "User not found" });
     }
 
+    //attach user to req object
     req.user = user;
-    console.log(
-      "[protectRoute] user attached:",
-      user._id?.toString?.() || user._id
-    );
     next();
-  } catch (err) {
-    console.error("[protectRoute] unexpected error:", err?.stack || err);
-    res.status(500).json({ message: "Internal Server Error" });
+  } catch (error) {
+    console.error("Error in protectRoute middleware", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
