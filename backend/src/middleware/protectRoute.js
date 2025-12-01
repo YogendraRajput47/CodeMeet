@@ -81,9 +81,10 @@ export const auth = async (_, res, next) => {
 
 export const protectRoute = async (req, res, next) => {
   try {
+    console.log("[REQ COOKIES RAW]", req.get("cookie"));
     const clerkId = await req.auth().userId;
     console.log(req.auth());
-    const isAuthenticated=req.auth().isAuthenticated;
+    const isAuthenticated = req.auth().isAuthenticated;
 
     if (!isAuthenticated) {
       return res.status(401).json({ message: "Unauthorized - Invalid Type" });
