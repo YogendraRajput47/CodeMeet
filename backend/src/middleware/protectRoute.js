@@ -83,7 +83,7 @@ export const protectRoute = async (req, res, next) => {
   try {
     const clerkId = await req.auth().userId;
     console.log(req.auth());
-    const isAuthenticated=req.auth().isAuthenticated
+    const isAuthenticated=req.auth().isAuthenticated;
      if (typeof req.auth !== "function") {
         console.error("[protectRoute] req.auth is NOT a function - clerkMiddleware missing or failed");
         console.error("[protectRoute] headers:", {
@@ -95,9 +95,9 @@ export const protectRoute = async (req, res, next) => {
       }
 
     // console.log(clerkId);
-    if (!isAuthenticated) {
-      return res.status(401).json({ message: "Unauthorized - Invalid Type" });
-    }
+    // if (isAuthenticated) {
+    //   return res.status(401).json({ message: "Unauthorized - Invalid Type" });
+    // }
     // find the user in db by clerkId
     const user = await User.findOne({ clerkId });
     if (!user) {
