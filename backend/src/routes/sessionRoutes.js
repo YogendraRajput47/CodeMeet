@@ -11,6 +11,10 @@ import {
 
 const router = express.Router();
 
+router.get("/health", (req, res) => {
+  res.status(200).json({ message: "Server is running" });
+});
+
 router.post("/", protectRoute, createSession);
 router.get("/active", protectRoute, getActiveSessions);
 router.get("/my-recent", protectRoute, getMyRecentSessions);

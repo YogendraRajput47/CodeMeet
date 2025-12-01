@@ -11,8 +11,8 @@ function ProblemsPage() {
 
     const problems=Object.values(PROBLEMS);
     // console.log(import.meta.env.VITE_API_URL)
-    const  data=useActiveSessions();
-    console.log("Printing data",data)
+
+    useActiveSessions();
 
   return (
     <div className="min-h-screen bg-base-200">

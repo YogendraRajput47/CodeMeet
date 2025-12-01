@@ -25,14 +25,11 @@ app.use(clerkMiddleware()); //this will add auth field to the request object:req
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
 
-console.log("Forwarding request to /api/sessions");
 app.use("/api/sessions", sessionRoutes);
 
 
 
-app.get("/health", (req, res) => {
-  res.status(200).json({ message: "Server is running" });
-});
+
 app.get("/books", (req, res) => {
   res.status(200).json({ message: "this is the book endpoint " });
 });
