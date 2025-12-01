@@ -13,7 +13,7 @@ export const auth = async (_, res, next) => {
 
 export const pprotectRoute = async (req, res, next) => {
   try {
-    const clerkId = await req.auth().userId;
+    const clerkId = await req?.auth()?.userId;
     // console.log(clerkId);
     if (!clerkId)
       return res.status(401).json({ message: "Unauthorized - Invalid Token" });
