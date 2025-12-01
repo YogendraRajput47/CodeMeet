@@ -20,6 +20,5 @@ import axiosInstance from "../lib/axios";
 
 export const useActiveSessions = async () => {
   const res = await axios.get(`https://codemeet-vu9d.onrender.com/api/sessions/active`);
-  console.log(res.data);
+  console.log("Printing data",res.data);
 };
-    
