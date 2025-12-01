@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const auth = async (_, res, next) => {
   try {
-      requireAuth();
+    requireAuth();
     next();
   } catch (error) {
     console.error("Error in protectRoute middleware", error);
@@ -15,8 +15,9 @@ export const pprotectRoute = async (req, res, next) => {
   try {
     const clerkId = await req?.auth()?.userId;
     // console.log(clerkId);
-    if (!clerkId)
+    if (!clerkId) {
       return res.status(401).json({ message: "Unauthorized - Invalid Token" });
+    }
     // find the user in db by clerkId
     const user = await User.findOne({ clerkId });
     if (!user) {
@@ -38,7 +39,9 @@ export const protectRoute = [
     try {
       const clerkId = req.auth().userId;
       if (!clerkId)
-        return res.status(401).json({ message: "Unauthorized - Invalid Token" });
+        return res
+          .status(401)
+          .json({ message: "Unauthorized - Invalid Token" });
       // find the user in db by clerkId
       const user = await User.findOne({ clerkId });
       if (!user) {
