@@ -1,5 +1,5 @@
 import express from "express";
-import { protectRoute,pprotectRoute, auth } from "../middleware/protectRoute.js";
+import { protectRoute, } from "../middleware/protectRoute.js";
 
 import {
   createSession,
@@ -17,7 +17,7 @@ router.get("/health", (req, res) => {
 });
 
 router.post("/", protectRoute, createSession);
-router.get("/active",auth,pprotectRoute, getActiveSessions);
+router.get("/active",protectRoute, getActiveSessions);
 router.get("/my-recent", protectRoute, getMyRecentSessions);
 
 router.get("/:id", protectRoute, getSessionById);
