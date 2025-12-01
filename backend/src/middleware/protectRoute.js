@@ -1,4 +1,4 @@
-import { clerkClient, requireAuth } from "@clerk/express";
+import { clerkClient, getAuth, requireAuth } from "@clerk/express";
 import User from "../models/User.js";
 
 // export const auth = async (_, res, next) => {
@@ -53,6 +53,7 @@ export const pprotectRoute = async (req, res, next) => {
 
     //attach user to req object
     const user = await clerkClient.users.getUser(userId);
+    console.log(user);
     req.user = user;
     next();
   } catch (error) {
