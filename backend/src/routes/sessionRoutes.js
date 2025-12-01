@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express from "express";
 import { protectRoute } from "../middleware/protectRoute.js";
 import {
   createSession,
@@ -17,6 +17,6 @@ router.get("/my-recent", protectRoute, getMyRecentSessions);
 
 router.get("/:id", protectRoute, getSessionById);
 router.post("/:id/join", protectRoute, joinSession);
-router.post("/:id.end", protectRoute, endSession);
+router.post("/:id/end", protectRoute, endSession); 
 
 export default router;
