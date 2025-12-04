@@ -23,15 +23,6 @@ app.use(express.json());
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
 app.use(clerkMiddleware()); // this adds auth field to request object: req.auth()
 
-try {
-  // attempt to import and use clerkMiddleware
-  console.log("[STARTUP] clerkMiddleware imported successfully");
-  app.use(clerkMiddleware());
-  console.log("[STARTUP] clerkMiddleware registered successfully");
-} catch (err) {
-  // this will catch synchronous import errors in some setups; log everything
-  console.error("[STARTUP] Failed to import/register clerkMiddleware:", err && (err.stack || err));
-}
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/chat", chatRoutes);
