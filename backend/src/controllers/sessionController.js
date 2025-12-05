@@ -119,13 +119,13 @@ export async function joinSession(req, res) {
     const clerkId = req.user.clerkId;
 
     const session = await Session.findById(id);
-    if (!session) {
+    if (!session) { 
       return res.status(404).json({
         message: "Session not found",
       });
     }
 
-    if (session.status !== active) {
+    if (session.status !== "active") {
       return res
         .status(400)
         .json({ message: "Cannot join a completed session" });
@@ -160,41 +160,35 @@ export async function endSession(req, res) {
   try {
     const { id } = req.params;
     const userId = req.user._id;
+
     const session = await Session.findById(id);
-    if (!session) {
-      return res.status(404).json({
-        message: "Session not found",
-      });
-    }
 
-    // check if the user is host
+    if (!session) return res.status(404).json({ message: "Session not found" });
+
+    // check if user is the host
     if (session.host.toString() !== userId.toString()) {
-      return res.status(403).json({
-        message: "Only the host can end the session",
-      });
+      return res.status(403).json({ message: "Only the host can end the session" });
     }
 
-    //check if the session is already completed
+    // check if session is already completed
     if (session.status === "completed") {
-      return res.status(400).json({
-        message: "Session is already completed",
-      });
+      return res.status(400).json({ message: "Session is already completed" });
     }
 
-    //delete stream video call
+    // delete stream video call
     const call = streamClient.video.call("default", session.callId);
     await call.delete({ hard: true });
 
-    //delete stream chat channel
-    const channel = chatClient.channel("messaging", session.call);
+    // delete stream chat channel
+    const channel = chatClient.channel("messaging", session.callId);
     await channel.delete();
 
     session.status = "completed";
     await session.save();
 
-    res.status(200).json({ message: "Session ended Successfully" });
+    res.status(200).json({ session, message: "Session ended successfully" });
   } catch (error) {
-    console.error("Error in joinSession controller:", error.message);
+    console.log("Error in endSession controller:", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
